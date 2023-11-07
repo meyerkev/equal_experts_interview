@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+  namespace: hello-world
+  labels:
+    app: hello-world
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+       - name: hello-world
+         image: local-hello-world
+         # Required for minikube local docker registry
+         # Use `minikube image load <image>` to load a local image into minikube
+         imagePullPolicy: Never
+         ports:
+         # Default flask port
+         - containerPort: 5000
+
